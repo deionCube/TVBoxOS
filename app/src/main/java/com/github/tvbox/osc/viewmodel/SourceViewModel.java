@@ -485,9 +485,12 @@ public class SourceViewModel extends ViewModel {
                 String search = sp.searchContent(wd, false);
                 if(!TextUtils.isEmpty(search)){
                     json(searchResult, search, sourceBean.getKey());
+                } else {
+                    json(searchResult, "", sourceBean.getKey());
                 }
             } catch (Throwable th) {
                 th.printStackTrace();
+                json(searchResult, "", sourceBean.getKey());
             }
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
@@ -670,6 +673,8 @@ public class SourceViewModel extends ViewModel {
                     result.put("parse", 1);
                     result.put("url", url);
                 }
+                result.put("proKey", progressKey);
+                result.put("subtKey", subtitleKey);
                 result.put("playUrl", playUrl);
                 result.put("flag", playFlag);
                 playResult.postValue(result);
@@ -700,6 +705,7 @@ public class SourceViewModel extends ViewModel {
                             JSONObject result = new JSONObject(json);
                             result.put("key", url);
                             result.put("proKey", progressKey);
+                            result.put("subtKey", subtitleKey);
                             if (!result.has("flag"))
                                 result.put("flag", playFlag);
                             playResult.postValue(result);
